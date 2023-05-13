@@ -1,4 +1,4 @@
-function Card({ title, price, rating, image, link }) {
+function Card({ title, price, rating, image, link, source }) {
   return (
     <a href={link} target="#" className="text-white hover:text-white">
       <div className="w-[400px] h-[150px] m-5 p-2 flex bg-slate-600 hover:text-slate-300 hover:bg-slate-700 rounded-lg">
@@ -12,7 +12,10 @@ function Card({ title, price, rating, image, link }) {
           <p className="card-text text-2xl text-white place-items-center">
             Rs. {price}
           </p>
-          <p className="card-text place-items-center">{rating}</p>
+          <p className="card-text place-items-center">{`${rating} out of 5`}</p>
+          <p className="card-text place-items-center text-red-700 bold">
+            {source}
+          </p>
         </div>
       </div>
     </a>
