@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
 
-function useAmazonScraper(productName) {
+function useAmazonScraper(productName, setError) {
   const [productData, setProductData] = useState([]);
   function getRating(r) {
     // get the rating from the string 3.2 out of 5 stars
@@ -12,6 +12,7 @@ function useAmazonScraper(productName) {
     return rating;
   }
   useEffect(() => {
+    setError((current) => [0, current[1], current[2]]);
     setProductData([]);
     async function fetchData() {
       try {
@@ -54,8 +55,10 @@ function useAmazonScraper(productName) {
           );
 
         setProductData(results);
+        setError((current) => [1, current[1], current[2]]);
       } catch (error) {
         console.error("Error:", error);
+        setError((current) => [-1, current[1], current[2]]);
       }
     }
 

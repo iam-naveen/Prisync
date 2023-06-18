@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
 
-function useSnapdealScraper(productName) {
+function useSnapdealScraper(productName, setError) {
   const [productData, setProductData] = useState([]);
 
   function getRating(r) {
@@ -12,6 +12,7 @@ function useSnapdealScraper(productName) {
   }
 
   useEffect(() => {
+    setError((current) => [current[0], 0, current[2]]);
     setProductData([]);
     async function fetchData() {
       try {
@@ -53,14 +54,16 @@ function useSnapdealScraper(productName) {
           );
 
         setProductData(results);
+        setError((current) => [current[0], 1, current[2]]);
       } catch (error) {
         console.error("Error:", error);
+        setError((current) => [current[0], -1, current[2]]);
       }
     }
-
+    
     fetchData();
   }, [productName]);
-
+  
   return productData;
 }
 

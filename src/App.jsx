@@ -4,19 +4,24 @@ import useAmazon from "./Hooks/useAmazonScrapper";
 import useSnapdeal from "./Hooks/useSnapdealScraper";
 import Card from "./components/Card";
 import Filters from "./components/Filters";
+import useEbayScrapper from "./Hooks/useEbayScrapper";
+import ErrorBox from "./components/ErrorBox.jsx";
 import "./App.css";
 
 function App() {
-  const [productName, setProductName] = useState("car");
+  const [productName, setProductName] = useState("Mobiles");
   const [data, setData] = useState([]);
-  const amazonData = useAmazon(productName);
-  const snapdealData = useSnapdeal(productName);
+  const [error, setError] = useState([0, 0, 0]);
+  const amazonData = useAmazon(productName, setError);
+  const snapdealData = useSnapdeal(productName, setError);
+  const ebayData = useEbayScrapper(productName, setError);
   useEffect(() => {
-    setData([...amazonData, ...snapdealData]);
-  }, [amazonData, snapdealData]);
+    setData([...amazonData, ...snapdealData, ...ebayData]);
+  }, [amazonData, snapdealData, ebayData]);
 
   return (
     <>
+      <ErrorBox errorInfo={error}></ErrorBox>
       <SearchBox setProductName={setProductName}></SearchBox>
       <Filters setData={setData}></Filters>
       <div className="container flex flex-row flex-wrap min-w-full justify-center">
@@ -37,7 +42,7 @@ function App() {
             Result for {productName.toUpperCase()} Loading...
           </h1>
         )}
-        {/* {console.log(data);} */}
+        {/* {console.log(error)} */}
       </div>
     </>
   );

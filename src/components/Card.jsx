@@ -12,9 +12,13 @@ function Card({ title, price, rating, image, link, source }) {
           <p className="card-text text-2xl text-white place-items-center">
             Rs. {price}
           </p>
-          <p className="card-text place-items-center">{`${rating} out of 5`}</p>
-          <p className="card-text place-items-center text-red-700 bold">
-            {source}
+          <p className="card-text flex gap-10 justify-center items-center mt-4">
+            <span className="rating">{`${rating} out of 5`}</span>
+            <img
+              src={`/${source}.png`}
+              alt="source logo"
+              className="w-20 object-fill"
+            />
           </p>
         </div>
       </div>
